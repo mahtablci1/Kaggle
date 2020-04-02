@@ -1,47 +1,33 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person.js';
+import Paper from './Paper/Paper.js';
+import data from './summaries.json';
+import paper from './Paper/Paper.js';
 
 class App extends Component {
 	state = {
-		persons: [
-			{ id: '#1', name: "Niks", age: 19 },
-			{ id: '#2', name: "GSP", age: 40 },
-			{ id: '#3', name: "Masvidal", age: 34 }
-		],
-		otherState: 'some other value',
-		showPersons: false
+		paperRefs: data,
+		curIndex: 0
 	}
 
-
-	nameChangedHandler = (event, id) => {
-		const personIndex = this.state.persons.findIndex(p => {
-			return p.id === id;
-		});
-		const person = { ...this.state.persons[personIndex] };
-		person.name = event.target.value;
-
-		const persons = [...this.state.persons];
-		persons[personIndex] = person;
-
-
-		this.setState({
-			persons: persons
-		});
+	prevArticleHandler = () => {
+		if (this.state.curIndex > 0) {
+			this.setState({
+				curIndex: this.state.curIndex - 1
+			});
+		}
 	}
 
-	deletePersonHandler = (personIndex) => {
-		//const persons = this.state.persons.slice();
-		const persons = [...this.state.persons];
-		persons.splice(personIndex, 1);
-		this.setState({ persons: persons })
+	nextArticleHandler = () => {
+		if (this.state.curIndex < this.state.paperRefs.length) {
+			this.setState({
+				curIndex: this.state.curIndex + 1
+			});
+		}
 	}
 
-	togglePersonsHandler = () => {
-		const doesShow = this.state.showPersons;
-		this.setState({ showPersons: !doesShow });
-	}
-
+	papers = this.state.paperRefs;
+	index = this.state.curIndex;
 
 	render() {
 		const style = {
@@ -51,37 +37,27 @@ class App extends Component {
 			padding: '8px',
 			cursor: 'pointer'
 		};
+		const csvFilePath = 'smoke_df_summarized.csv';
 
-		let persons = null;
-
-		if (this.state.showPersons) {
-			persons = (
-				<div>
-					{this.state.persons.map((person, index) => {
-						return (
-							<Person
-								click={() => this.deletePersonHandler(index)}
-								name={person.name}
-								age={person.age}
-								key={person.id}
-								changed={(event) => this.nameChangedHandler(event, person.id)}
-							/>);
-					})}
-				</div>
-			);
-		}
+		console.log(this.state.paperRefs);
 
 
 		return (
 			<div className="App">
-				<h1>Hi, I'm a React App</h1>
-				<p>This is really working!</p>
-				<button
-					style={style}
-					onClick={this.togglePersonsHandler}>
-					Toggle Persons
-        </button>
-				{persons}
+				<h1>Hey, we need your help</h1>
+				<p>Do sentences in the abstract below answer your questions about smoking as a risk factor?</p>
+				<Paper
+					key={this.papers[this.state.curIndex].doc_id}
+					title={this.papers[this.state.curIndex].title}
+					authors={this.papers[this.state.curIndex].authors}
+					doi={this.papers[this.state.curIndex].doi}
+					journal={this.papers[this.state.curIndex].journal}
+					abstract={this.papers[this.state.curIndex].abstract}
+					summary={this.papers[this.state.curIndex].scibert_summary}
+				/>
+				<button onClick={this.prevArticleHandler}>Previous Article</button>
+				<button onClick={this.nextArticleHandler}>Next Article</button>
+
 			</div>
 		);
 	}

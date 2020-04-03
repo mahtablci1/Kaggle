@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Paper from './Paper/Paper.js';
+import PaperComponent from './Paper/Paper.js';
 import data from './summaries.json';
-import paper from './Paper/Paper.js';
 
 class App extends Component {
 	state = {
@@ -50,21 +49,20 @@ class App extends Component {
 
 
 		return (
-			<div className="App">
-				<h1>Hey, we need your help</h1>
-				<p>Do sentences in the abstract below answer your questions about smoking as a risk factor?</p>
-				{papers.map(paper => {
-					return (
-						<Paper
-							key={paper.doc_id}
-							title={paper.title}
-							authors={paper.authors}
-							doi={paper.doi}
-							journal={paper.journal}
-							abstract={paper.abstract}
-							summary={paper.scibert_summary}
-						/>);
-				})}
+			<div>
+				<div className="app-header">
+					<h1>Hey, we need your help!</h1>
+					<h4>Please select the sentences in each summary that are relevant to the following Covid-19 risk factors</h4>
+				</div>
+
+				<div>
+					{papers.map(paper => {
+						return (
+							<PaperComponent
+								paper={paper}
+							/>);
+					})}
+				</div>
 
 				<button onClick={this.loadMoreHandler}>Load More</button>
 				<p>{this.state.winSize}</p>

@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import CSVReader from 'react-csv-reader';
-import Papa from 'papaparse';
 import './Paper.css';
 
 const handleForce = (data, fileInfo) => console.log(data, fileInfo);

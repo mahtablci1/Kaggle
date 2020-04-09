@@ -91,6 +91,7 @@ class App extends Component {
 					{papers.map(paper => {
 						return (
 							<PaperComponent
+								key={paper.doc_id}
 								paper={paper}
 							/>);
 					})}

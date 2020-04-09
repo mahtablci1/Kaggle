@@ -40,6 +40,24 @@
   text-align: left;
   text-transform: uppercase;
 }
+.paper-summary h4 label span {
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.paper-summary h4 label span.active,
+.paper-summary h4 label span:hover {
+  font-weight: bold;
+}
+.paper-summary h4 label span.active {
+  border-bottom: .1em solid #777;
+}
+.paper-summary h4 label:not(:first-child) {
+  margin-left: 30px;
+}
+
+.paper-summary h4 input {
+  visibility: hidden;
+}
 
 .paper-summary p {
   font-size: 18px;

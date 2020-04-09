@@ -92,7 +92,7 @@ class PaperComponent extends Component {
 							)
 						})}
 					</div>
-					<h4><a href={link}>Reference</a></h4> <span></span>
+					<h4><a target="_blank" href={link}>Reference</a></h4> <span></span>
 
 				</div>
 

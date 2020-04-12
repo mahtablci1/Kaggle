@@ -19,10 +19,16 @@ class App extends Component {
 
 		// clean risk_factor column
 		_papers.forEach(p => {
-			// use double quotes
-			p.risk_factor = p.risk_factor.replace(/\'/g, '"')
-			// remove duplicates
-			p.risk_factor = [...new Set(JSON.parse(p.risk_factor))]
+			if (typeof p.risk_factor === 'string') {
+				// use double quotes
+				p.risk_factor = p.risk_factor.replace(/\'/g, '"')
+				// remove duplicates
+				p.risk_factor = [...new Set(JSON.parse(p.risk_factor))]
+			}
+
+			if (!Array.isArray(p.risk_factor)) {
+				console.error('risk_factor column must be array of strings!', p.risk_factor)
+			}
 		});
 
 		_papers = _papers.reduce((acc, paper) => {

@@ -1,97 +1,135 @@
 import React, { Component } from 'react';
 import './App.css';
 import PaperComponent from './Paper/Paper.js';
-import data from './risk_covid_join.json'
+// import data from './datas/risk_covid_join.json'
+// import diabete_data from "./datas/diabete.json";
+// import tuberclosis_data from "./datas/tuberclosis.json";
+// import pregnan_data from "./datas/pregnan.json";
+// import smoke_data from "./datas/smoke.json";
+import enriched_data from "./datas/enriched_covid_df.json";
+
+// const rankedRiskFactors = {
+// 	pregnancy: pregnan_data,
+// 	smoking: smoke_data,
+// 	diabetes: diabete_data,
+// 	tuberculosis: tuberclosis_data,
+// }
+
+// const riskFactors = [
+// 	"pregnancy", "smoking", "diabetes", 'tuberculosis',
+// 	"hypertension", "race", "heart disease", "nursing home",
+// 	"cancer", "immigration", "elderly", "education",
+// 	"insurance", "neonates", "income",
+// 	"ethnicity", "housing", "health workers", "hospital staff", "staff"
+// ];
+
+function unstemRiskFactor(stemmedRiskFactor) {
+	if (stemmedRiskFactor === 'pregnan') return 'pregnancy';
+	else if (stemmedRiskFactor === 'smok' || stemmedRiskFactor === 'lung' || stemmedRiskFactor === 'immun') return 'smoking';
+	else if (stemmedRiskFactor === 'tubercul' || stemmedRiskFactor === 'tb' || stemmedRiskFactor === 'sputum') return 'tuberculosis';
+	else if (stemmedRiskFactor === 'diabete') return 'diabetes';
+	else if (stemmedRiskFactor === 'comorbidit') return 'comorbidity';
+	else if (stemmedRiskFactor === 'hyperten') return 'hypertension';
+	return stemmedRiskFactor;
+}
+
+function unstemDesign(stemmedDesign) {
+	return stemmedDesign;
+}
 
 class App extends Component {
+	riskFactors;
+
 
 	constructor() {
 		super();
-		// sort papers by whethere they're covid related
-		let _papers = data.sort((p1, p2) => {
-			if (p1.is_covid_related && !p2.is_covid_related) return -1;
-			else if (p2.is_covid_related && !p1.is_covid_related) return 1;
-			else if (p1.is_covid_related && p2.is_covid_related) {
-				return p2.publish_time - p1.publish_time
-			}
-			else return 0;
-		})
-
-		// clean risk_factor column
-		_papers.forEach(p => {
-			if (typeof p.risk_factor === 'string') {
-				// use double quotes
-				p.risk_factor = p.risk_factor.replace(/\'/g, '"')
-				// remove duplicates
-				p.risk_factor = [...new Set(JSON.parse(p.risk_factor))]
-			}
-
-			if (!Array.isArray(p.risk_factor)) {
-				console.error('risk_factor column must be array of strings!', p.risk_factor)
-			}
-		});
-
-		_papers = _papers.reduce((acc, paper) => {
-			if (acc[paper.doc_id]) {
-				acc[paper.doc_id].risk_factor.push(...paper.risk_factor)
-			} else {
-				acc[paper.doc_id] = paper
-			}
-			return acc;
-		}, {})
-
-		const papers = Object.values(_papers)
-		console.log(papers);
+		const papers = this.cleanPapers(enriched_data);
 		this.state = {
+			papers: enriched_data,
+			cleanedPapers: papers,
 			paperRefs: papers,
-			winSize: 10
+			winStart: 0,
+			winSize: 10,
 		}
+
+		this.filterByRiskFactor = this.filterByRiskFactor.bind(this);
 	}
 
+	cleanPapers(data) {
+		console.log(data);
 
-	prevArticleHandler = () => {
-		if (this.state.curIndex > 0) {
-			this.setState({
-				curIndex: this.state.curIndex - 1
-			});
-		}
-	}
-
-	nextArticleHandler = () => {
-		if (this.state.curIndex < this.state.paperRefs.length) {
-			this.setState({
-				curIndex: this.state.curIndex + 1
-			});
-		}
-	}
-
-	loadMoreHandler = () => {
-		this.setState({
-			winSize: this.state.winSize + 10
+		let papers = data.sort((p1, p2) => {
+			return p1.total_rank - p2.total_rank;
 		})
+
+		this.cleanRiskFactors(papers);
+		this.cleanDesigns(papers)
+
+		console.log(papers);
+		return papers;
+	}
+
+	cleanRiskFactors(papers) {
+		this.riskFactors = new Set();
+		papers.forEach(p => {
+			if (typeof p.risk_factors === 'string') {
+				p.risk_factors = this.handleStringRiskFactors(p.risk_factors);
+			}
+			if (!Array.isArray(p.risk_factors)) {
+				console.error('risk_factor column must be array of strings!', p.risk_factors);
+			}
+			p.risk_factors = this.makeFlatUnique(p.risk_factors);
+			p.risk_factors = p.risk_factors.map(f => unstemRiskFactor(f.trim()));
+			p.risk_factors.forEach(f => this.riskFactors.add(f));
+		});
+	}
+
+	cleanDesigns(papers) {
+		papers.forEach(p => {
+			p.design_x = this.makeFlatUnique(p.design_x).map(d =>unstemDesign(d));
+		})
+	}
+
+	makeFlatUnique(arr) {
+		return [...new Set(arr.flat())]
+	}
+
+	handleStringRiskFactors(risk_factors) {
+		// use double quotes
+		risk_factors = risk_factors.replace(/'/g, '"');
+		// remove duplicates
+		risk_factors = JSON.parse(risk_factors);
+		return risk_factors
 	}
 
 	render() {
-		const style = {
-			backgroundColor: 'white',
-			font: 'inherit',
-			border: '1px solid blue',
-			padding: '8px',
-			cursor: 'pointer'
-		};
-		const csvFilePath = 'smoke_df_summarized.csv';
-
-		const papers = this.state.paperRefs.slice(this.state.curIndex,
-			this.state.winSize);
+		const papers = this.state.paperRefs.slice(this.state.winStart, this.state.winStart + this.state.winSize);
 
 		console.log(papers)
 
 
 		return (
 			<div>
-				<div className="app-header">
-					<h1>What do we know about COVID-19 risk factors? What have we learned from epidemiological studies?</h1>
-				</div>
+
+				<header>
+					<div className="app-header">
+						<h1>What do we know about COVID-19 risk factors? What have we learned from epidemiological studies?</h1>
+					</div>
+
+					<div className="searchbar">
+						<h4>Filters:</h4>
+						<div className="filters">
+							<label>
+								Risk Factor:
+								<select onChange={this.filterByRiskFactor}>
+									<option value=""></option>
+									{this.getRiskFactorOptions()}
+								</select>
+							</label>
+						</div>
+					</div>
+
+				</header>
 
 				<div>
 					{papers.map(paper => {
@@ -109,6 +147,38 @@ class App extends Component {
 			</div>
 		);
 	}
+
+	filterByRiskFactor({target}) {
+		const factor = target.value;
+		this.setState({
+			paperRefs:
+				factor
+					? this.state.cleanedPapers.filter(p => p.risk_factors.includes(factor))
+					: this.state.cleanedPapers,
+			winSize: 10
+		})
+	}
+
+	getRiskFactorOptions() {
+		return [...this.riskFactors].map(f => {
+			const factorLabel = f[0].toUpperCase() + f.slice(1);
+			return (
+				<option
+				  key={f}
+					value={f}
+					className="title-case">
+					{factorLabel}
+				</option>
+			)
+		})
+	}
+
+	loadMoreHandler = () => {
+		this.setState({
+			winSize: this.state.winSize + 10
+		})
+	}
+
 }
 
 export default App;

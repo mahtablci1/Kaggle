@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import PaperComponent from './Paper/Paper.js';
-// import data from './data/risk_covid_join.json'
-// import diabete_data from "./data/diabete.json";
-// import tuberclosis_data from "./data/tuberclosis.json";
-// import pregnan_data from "./data/pregnan.json";
-// import smoke_data from "./data/smoke.json";
-import enriched_data from "./data/enriched_covid_df.json";
+// import data from './datas/risk_covid_join.json'
+// import diabete_data from "./datas/diabete.json";
+// import tuberclosis_data from "./datas/tuberclosis.json";
+// import pregnan_data from "./datas/pregnan.json";
+// import smoke_data from "./datas/smoke.json";
+import enriched_data from "./datas/enriched_covid_df.json";
 
 // const rankedRiskFactors = {
 // 	pregnancy: pregnan_data,

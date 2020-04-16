@@ -26,14 +26,6 @@ npm install
 npm start
 ```
 
-## Usage
-
-```python
-import foobar
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
-```
 
 ## Acknowledgement
 We would like to thank Bryan Romer and Serge Myroshnychenko for helping us improve this platform!

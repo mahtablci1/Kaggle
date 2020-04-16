@@ -1,0 +1,1106 @@
+{
+	"info": {
+		"_postman_id": "f8025da5-4aa8-4fc6-8098-5cc39f0a1807",
+		"name": "SignatureServices v2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Envelopes",
+			"item": [
+				{
+					"name": "Create a default envelope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "11ac7927-3e6d-47ba-9b72-0dd4172407b1",
+								"exec": [
+									"if(responseCode.code === 201){",
+									"    var json = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable(\"esign_envelopeId\", json.guid);",
+									"    postman.setEnvironmentVariable(\"esign_documentId\", json.documents[0].guid);",
+									"    postman.setEnvironmentVariable(\"esign_signatoryId\", json.signatories[0].guid);",
+									"    postman.setEnvironmentVariable(\"esign_userId\", json.signatories[0].userId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{UDSLONGTOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\r\n\t\t\"envelopeName\":\"Test Envelope V2\",\r\n\t\t\"customerName\": \"Portal Test\",\r\n\t\t\"signatories\":[ {\r\n\t\t\t\"firstName\":\"CC\",\r\n\t\t\t\"lastName\":\"GRP2\",\r\n\t\t\t\"email\":\"TRCCMATT+CCGRP2@gmail.com\",\r\n\t\t\t\"pin\": \"1234\",\r\n\t\t\t\"pinDescription\": \"Please enter your pin\"\r\n\t\t} ],\r\n\t\t\"documents\":[ {\r\n\t\t\t\"title\":\"Test Document V2\",\r\n\t\t\t\"pages\":[ {\r\n\t\t\t\t\"title\":\"Test Page\",\r\n\t\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\t\"title\":\"Test Watermark\",\r\n\t\t\t\t\t\"signatoryEmail\":\"TRCCMATT+CCGRP2@gmail.com\",\r\n\t\t\t\t\t\"position\":{\r\n\t\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\t\"height\": 20\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"type\": \"signature\"\r\n\t\t\t\t} ]\r\n\t\t\t} ]\r\n\t\t} ],\r\n\t\t\"purgeDate\":\"2020-09-29T00:00:00Z\",\r\n\t\t\"expires\":\"2020-09-29T00:00:00Z\",\r\n\t\t\"originator\":{\r\n\t\t\t\"firstName\":\"Matthew\",\r\n\t\t\t\"lastName\":\"Woytovich\",\r\n\t\t\t\"email\":\"TRCCMATT+usdemo@gmail.com\"\r\n\t\t},\r\n\t\t\"metadata\":[\r\n\t\t\t{\r\n\t\t\t\t\"key\": \"bluemoon-client-id\",\r\n\t\t\t\t\"value\": \"E8E40127258D41A686F36E9476A52C9B\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"key\": \"bluemoon-company-id\",\r\n\t\t\t\t\"value\": \"31603499100943B6B9136533B684476B\"\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"originatorEventNotifications\": [\r\n\t\t\t\"signed\",\r\n\t\t\t\"revoked\",\r\n\t\t\t\"declined\"\r\n\t\t],\r\n\t\t\"signatoryEventNotifications\": [\r\n\t\t\t\"pending\",\r\n\t\t\t\"signed\",\r\n\t\t\t\"revoked\",\r\n\t\t\t\"declined\"\r\n\t\t]\r\n\t}\r\n"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{UTILS_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{UTILS_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an envelope with an 11-page document",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "94396009-1514-48e6-bed9-e563fa515afe",
+								"exec": [
+									"if(responseCode.code === 201){",
+									"    var json = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable(\"esign_envelopeId\", json.guid);",
+									"    postman.setEnvironmentVariable(\"esign_documentId\", json.documents[0].guid);",
+									"    postman.setEnvironmentVariable(\"esign_signatoryId\", json.signatories[0].guid);",
+									"    postman.setEnvironmentVariable(\"esign_userId\", json.signatories[0].userId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_product_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"envelopeName\":\"test envelope\",\r\n\t\"signatories\":[ {\r\n\t\t\"firstName\":\"test\",\r\n\t\t\"lastName\":\"signatory\",\r\n\t\t\"email\":\"test@signatory.com\"\r\n\t\t\r\n\t} ],\r\n\t\"documents\":[ {\r\n\t\t\"title\":\"test document\",\r\n\t\t\"pages\":[ {\r\n\t\t\t\"title\":\"test page 1\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 2\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 3\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 4\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 5\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 6\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 7\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 8\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 9\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 10\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t}, {\r\n\t\t\t\"title\":\"test page 11\",\r\n\t\t\t\"watermarks\":[ {\r\n\t\t\t\t\"title\":\"test watermark\",\r\n\t\t\t\t\"signatoryEmail\":\"test@signatory.com\",\r\n\t\t\t\t\"position\":{\r\n\t\t\t\t\t\"left\": 20,\r\n\t\t\t\t\t\"top\": 20,\r\n\t\t\t\t\t\"width\": 20,\r\n\t\t\t\t\t\"height\": 20\r\n\t\t\t\t},\r\n\t\t\t\t\"type\":{\r\n\t\t\t\t\t\"value\":\"generic\"\r\n\t\t\t\t}\r\n\t\t\t} ]\r\n\t\t} ]\r\n\t} ],\r\n\t\"created\":\"2018-07-04T00:30Z\",\r\n\t\"purgeDate\":\"2018-07-04T00:40Z\",\r\n\t\"originator\":{\r\n\t\t\"firstName\":\"test\",\r\n\t\t\"lastName\":\"originator\",\r\n\t\t\"email\":\"test@originator.com\"\r\n\t}\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get envelope by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{uds}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/{{esign_envelopeId}}",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"{{esign_envelopeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a ZIP archive of envelope documents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{uds}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/{{esign_envelopeId}}/documents",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"{{esign_envelopeId}}",
+								"documents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an envelope's status to pending",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{UDSLONGTOKEN}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "text/plain",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{UTILS_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/{{esign_envelopeId}}?status=pending",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{UTILS_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"{{esign_envelopeId}}"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an envelope's status to signed",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/{{esign_envelopeId}}?status=signed",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"{{esign_envelopeId}}"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "signed"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an envelope's status to declined",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/{{esign_envelopeId}}?status=declined",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"{{esign_envelopeId}}"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "declined"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an envelope's status to revoked",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{uds}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/{{esign_envelopeId}}?status=revoked",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"{{esign_envelopeId}}"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "revoked"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a login URL for a document",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{esign_product_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"eid\": \"{{esign_envelopeId}}\",\n\t\"sid\": \"{{esign_signatoryId}}\",\n\t\"uid\": \"{{esign_userId}}\"\n}"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/login-url",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"login-url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload a zipped envelope",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{uds}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/envelopes/zipped",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"envelopes",
+								"zipped"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Documents",
+			"item": [
+				{
+					"name": "Upload a document's contents",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream"
+							},
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{UDSLONGTOKEN}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/C:/Users/0154275/OneDrive - Thomson Reuters Incorporated/Desktop/TEST 1.pdf"
+							}
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{UTILS_HOST}}/{{SIGNATURE_SERVICES}}/v2/documents/{{esign_documentId}}",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{UTILS_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"documents",
+								"{{esign_documentId}}"
+							]
+						},
+						"description": "Accepts PDF files, should also accept .zip files."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve document information",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_product_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/documents/{{esign_documentId}}/status",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"documents",
+								"{{esign_documentId}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve generated PDF of signed document",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "UDSLongToken {{uds}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/pdf"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/documents/{{esign_documentId}}",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"documents",
+								"{{esign_documentId}}"
+							]
+						},
+						"description": "NOTE: Returns 500 if the generated PDF cannot be found - this call doesn't trigger its creation; that seems to be handled when the envelope's status is changed to \"signed\", which has flow controls."
+					},
+					"response": []
+				},
+				{
+					"name": "Get page information for a document",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b3208a5-594b-4195-b25b-be1cab7b4acf",
+								"exec": [
+									"if(responseCode.code === 200){",
+									"    var json = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable(\"esign_pageId\", json[0].guid);",
+									"    postman.setEnvironmentVariable(\"esign_watermarkId\", json[0].watermarks.length > 0 ? json[0].watermarks[0].guid : null );",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/documents/{{esign_documentId}}/pages",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"documents",
+								"{{esign_documentId}}",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Generate ESign Product Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1fbb9a80-2ca0-42c7-ab2f-47560e12df74",
+								"exec": [
+									"if(responseCode.code === 200){",
+									"    postman.setEnvironmentVariable(\"esign_product_token\", responseBody)",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "productName",
+									"value": "TestProduct",
+									"description": "The name of the product requesting access to ESign",
+									"type": "text"
+								},
+								{
+									"key": "companyId",
+									"value": "{{cc_companyId}}",
+									"description": "The ID number of the firm whose data the named product requires access to",
+									"type": "text"
+								},
+								{
+									"key": "secret",
+									"value": "test_product",
+									"description": "The secret key associated with the named product",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{UTILS_HOST}}/{{SIGNATURE_SERVICES}}/v2/tokens/product",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{UTILS_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"tokens",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate ESign User Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5ba7c444-e6e5-4da0-9026-2808e11c71ed",
+								"exec": [
+									"if(responseCode.code === 200){",
+									"    postman.setEnvironmentVariable(\"esign_user_token\", responseBody);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "token",
+									"value": "{{esign_login_token}}",
+									"description": "The token value returned by a call to v1/login",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{UTILS_HOST}}/{{SIGNATURE_SERVICES}}/v1/tokens/user",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{UTILS_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v1",
+								"tokens",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as a signatory of an envelope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "989755d3-fe8d-4755-b0e4-64f70a41ac77",
+								"exec": [
+									"if(responseCode.code === 200){",
+									"    var json = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable(\"esign_user_token\", \"esign-token \" + btoa(json.token));",
+									"    postman.setEnvironmentVariable(\"esign_login_token\", json.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"eid\": \"{{esign_envelopeId}}\",\n\t\"sid\": \"{{esign_signatoryId}}\",\n\t\"uid\": \"{{esign_userId}}\"\n}"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/login",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"login"
+							]
+						},
+						"description": "Also generates an esign-token and updates the appropriate global variable"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a login URL for a document signatory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{esign_product_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"eid\": \"{{esign_envelopeId}}\",\n\t\"sid\": \"{{esign_signatoryId}}\",\n\t\"uid\": \"{{esign_userId}}\"\n}"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/login-url",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"login-url"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Pages",
+			"item": [
+				{
+					"name": "Retrieve a PNG image of a document page",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/pages/{{esign_pageId}}?",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"pages",
+								"{{esign_pageId}}"
+							],
+							"query": [
+								{
+									"key": "base64encode",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Watermarks",
+			"item": [
+				{
+					"name": "Update a watermark status to signed",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": ""
+							}
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/watermarks/{{esign_watermarkId}}",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"watermarks",
+								"{{esign_watermarkId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download a signature watermark image",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/watermarks/{{esign_watermarkId}}",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"watermarks",
+								"{{esign_watermarkId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload a signature watermark text string",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "This is my signature."
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/watermarks/{{esign_watermarkId}}?method=type",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"watermarks",
+								"{{esign_watermarkId}}"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "type"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload a signature watermark image",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {}
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/watermarks/{{esign_watermarkId}}?method=upload",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"watermarks",
+								"{{esign_watermarkId}}"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "upload"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "KBA",
+			"item": [
+				{
+					"name": "Update a signatory's demographic information",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Johnny\",\r\n  \"lastName\": \"Brown\",\r\n  \"address\": \"565 Main Street\",\r\n  \"city\": \"Atlanta\",\r\n  \"state\": \"GA\",\r\n  \"zip\": \"30339\",\r\n  \"ssn4\": \"4444\",\r\n  \"dob\": \"1969-04-10T00:00:00.000Z\"\r\n}"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/kba/demographics",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"kba",
+								"demographics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get KBA status and questions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/kba",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"kba"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Answer KBA questions",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{esign_user_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"questionType\": \"string\",\r\n    \"value\": \"string\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/kba",
+							"protocol": "http{{SECURITY_SUFFIX}}",
+							"host": [
+								"{{ONVIO_HOST}}"
+							],
+							"path": [
+								"{{SIGNATURE_SERVICES}}",
+								"v2",
+								"kba"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Resource Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http{{SECURITY_SUFFIX}}://{{ONVIO_HOST}}/{{SIGNATURE_SERVICES}}/v2/resourcecheck",
+					"protocol": "http{{SECURITY_SUFFIX}}",
+					"host": [
+						"{{ONVIO_HOST}}"
+					],
+					"path": [
+						"{{SIGNATURE_SERVICES}}",
+						"v2",
+						"resourcecheck"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

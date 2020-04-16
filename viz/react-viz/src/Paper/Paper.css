@@ -60,14 +60,23 @@
 }
 
 .paper-summary p {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 25px;
+}
+
+.paper-summary .content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.paper-summary button.btn {
+  float: right;
 }
 
 .paper-summary .sentence:hover {
   text-shadow: 1px 0px 0px;
 }
 
-.title-case {
-  text-transform: capitalize;
+.keyword {
+  background-color: yellow;
 }

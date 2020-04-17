@@ -6,7 +6,8 @@ import PaperComponent from './Paper/Paper.js';
 // import tuberclosis_data from "./datas/tuberclosis.json";
 // import pregnan_data from "./datas/pregnan.json";
 // import smoke_data from "./datas/smoke.json";
-import enriched_data from "./datas/enriched_covid_df.json";
+// import enriched_data from "./datas/enriched_covid_df.json";
+import enriched_data from "./datas/enriched_covid_df224.json";
 
 // const rankedRiskFactors = {
 // 	pregnancy: pregnan_data,
@@ -43,30 +44,54 @@ class App extends Component {
 
 	constructor() {
 		super();
+		// const factors = this.getPaperRiskFactors(enriched_data[0])
+		// console.log('factors', factors);
+
+		console.log('unclean', enriched_data);
 		const papers = this.cleanPapers(enriched_data);
+		console.log('clean', papers);
+
 		this.state = {
-			papers: enriched_data,
-			cleanedPapers: papers,
-			paperRefs: papers,
-			winStart: 0,
+			unclean: enriched_data, // raw data
+			cleaned: papers, // raw data cleaned - normalized fields (unique/flat lists, string -> array etc)
+			filtered: papers, // cleaned data filtered by filters (risk factor)
+			winStart: 0, // paginated window of filtered papers to show
 			winSize: 10,
 		}
 
 		this.filterByRiskFactor = this.filterByRiskFactor.bind(this);
 	}
 
+	getPaperRiskFactors(paper) {
+		let _factors = []
+		for (const prop in paper) {
+			const match = prop.match(/has_(.*)\?/)
+			if (match) {
+				const [,factor] = match;
+				_factors.push(factor);
+			}
+		}
+		_factors = [...new Set(_factors)];
+		const factors = _factors.filter(f => paper[`has_${f}?`])
+		return factors;
+	}
+
 	cleanPapers(data) {
-		console.log(data);
+		this.setIds(data);
+		this.sortPapers(data)
+		this.cleanRiskFactors(data);
+		this.cleanDesigns(data)
+		return data;
+	}
 
-		let papers = data.sort((p1, p2) => {
-			return p1.total_rank - p2.total_rank;
+	setIds(papers) {
+		papers.forEach((p, idx) => p.id = idx)
+	}
+
+	sortPapers(papers, sortBy = 'max_rank') {
+		return papers.sort((p1, p2) => {
+			return (p2[sortBy] || 0) - (p1[sortBy] || 0);
 		})
-
-		this.cleanRiskFactors(papers);
-		this.cleanDesigns(papers)
-
-		console.log(papers);
-		return papers;
 	}
 
 	cleanRiskFactors(papers) {
@@ -86,7 +111,7 @@ class App extends Component {
 
 	cleanDesigns(papers) {
 		papers.forEach(p => {
-			p.design_x = this.makeFlatUnique(p.design_x).map(d =>unstemDesign(d));
+			p.design = this.makeFlatUnique(p.design).map(d =>unstemDesign(d));
 		})
 	}
 
@@ -103,10 +128,7 @@ class App extends Component {
 	}
 
 	render() {
-		const papers = this.state.paperRefs.slice(this.state.winStart, this.state.winStart + this.state.winSize);
-
-		console.log(papers)
-
+		const papers = this.state.filtered.slice(this.state.winStart, this.state.winStart + this.state.winSize);
 
 		return (
 			<div>
@@ -133,11 +155,7 @@ class App extends Component {
 
 				<div>
 					{papers.map(paper => {
-						return (
-							<PaperComponent
-								key={paper.doc_id}
-								paper={paper}
-							/>);
+						return (<PaperComponent key={paper.id} paper={paper}/>);
 					})}
 				</div>
 
@@ -149,12 +167,15 @@ class App extends Component {
 	}
 
 	filterByRiskFactor({target}) {
+		debugger;
 		const factor = target.value;
+		const filtered = factor
+			? this.state.cleaned.filter(p => p[`has_${factor}?`])
+			: this.state.cleaned
+		const sortBy = factor ? `${factor}_rank` : undefined
+		this.sortPapers(filtered, sortBy)
 		this.setState({
-			paperRefs:
-				factor
-					? this.state.cleanedPapers.filter(p => p.risk_factors.includes(factor))
-					: this.state.cleanedPapers,
+			filtered,
 			winSize: 10
 		})
 	}

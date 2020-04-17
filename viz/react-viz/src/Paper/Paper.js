@@ -8,18 +8,18 @@ const handleForce = (data, fileInfo) => console.log(data, fileInfo);
 interface PaperDTO {
 	// metadata
 	doc_id: string;
-	journal_x: string; // journal title
-	title_x: string; // paper title
-	authors_x: string; // paper authors
-	doi_x: string; // digital object identifier
-	publish_time_x: string;
+	journal: string; // journal title
+	title: string; // paper title
+	authors: string; // paper authors
+	doi: string; // digital object identifier
+	publish_time: string;
 	risk_factors: string // stringified array of risk factors
 	design: string // design of the research experiment
 
 	// data
 	match_indices: string; indices that any keywords start at to be higlighted
 	text_body: string; // relevant snippet
-	abstract_x: string; // paper abstract
+	abstract: string; // paper abstract
 	scibert_summary: string; // paper summary
 
 	transmission_indicator: boolean;
@@ -73,24 +73,24 @@ class PaperComponent extends Component {
 	render() {
 
 		let {
-			doc_id, journal_x, title_x, authors_x, doi_x,
-			text_body, abstract_x, design_x, risk_factors,
-			publish_time_x,
+			doc_id, journal, title, authors, doi,
+			text_body, abstract, design, risk_factors,
+			publish_time,
 		} = this.state.paper;
 
 		const excerptName = this.state.excerptName;
 		// const scibert_summary_sentences = scibert_summary.split(/(?<=\.\s+)/);
-		const link = `http://doi.org/${doi_x}`;
+		const link = `http://doi.org/${doi}`;
 		return (
 			<div className="paper-container">
 				<div className="paper-metadata">
-					<h4>Title:</h4> <span>{title_x}</span>
-					<h4>Journal:</h4> <span>{journal_x}</span>
-					<h4>Publication Date:</h4> <span>{(new Date(publish_time_x)).toUTCString()}</span>
+					<h4>Title:</h4> <span>{title}</span>
+					<h4>Journal:</h4> <span>{journal}</span>
+					<h4>Publication Date:</h4> <span>{(new Date(publish_time)).toUTCString()}</span>
 
 					{/* <h4>Authors:</h4> <span>{authors}</span> */}
-					<h4>Doi:</h4> <span>{doi_x}</span>
-					<h4>Design:</h4> <span className="title-case">{this.showButtons(design_x)}</span>
+					<h4>Doi:</h4> <span>{doi}</span>
+					<h4>Design:</h4> <span className="title-case">{this.showButtons(design)}</span>
 					<h4>Relevant Risk Factors</h4> {this.showButtons(risk_factors)}
 					<h4><a target="_blank" href={link}>Reference</a></h4> <span></span>
 
@@ -195,30 +195,36 @@ class PaperComponent extends Component {
 	//
 
 	makeHighlightedFragments(match_indices, snippet) {
-		const ws = /(.*?)\s/g
+		const ws = /(.*?)(\W)/g
 		const frags = []
 		const window = {start: null, end: null}
 		for (let i = 0; i < match_indices.length; ++i) {
 			const matchIdx = match_indices[i]
-			frags.push(... this.makeSentenceFragments(snippet.slice(ws.lastIndex, matchIdx)))
+			frags.push(... this.makeSentenceFragments(snippet.slice(ws.lastIndex, matchIdx), i))
 			ws.lastIndex = matchIdx;
-			const [,kw] = ws.exec(snippet)
-			frags.push((<span className="fragment keyword">{kw}</span>));
-			if (i === 0) {
-				window.start = frags.length - 2;
+			const match = ws.exec(snippet)
+			if (match) {
+				const [,kw] = match;
+				frags.push((<span key={matchIdx} className="fragment keyword">{kw}</span>));
+				if (i === 0) {
+					window.start = frags.length - 2;
+				}
+				if (i === match_indices.length - 1) {
+					window.end = frags.length;
+				}
+				ws.lastIndex--;
+			} else {
+				debugger;
+				ws.lastIndex = matchIdx
 			}
-			if (i === match_indices.length - 1) {
-				window.end = frags.length;
-			}
-			ws.lastIndex--;
 		}
-		frags.push(...this.makeSentenceFragments(snippet.slice(ws.lastIndex)))
+		frags.push(...this.makeSentenceFragments(snippet.slice(ws.lastIndex),match_indices.length))
 		return [frags, window];
 	}
 
-	makeSentenceFragments(frag) {
+	makeSentenceFragments(frag, matchIdx) {
 		const _frags = this._makeSentenceFragments(frag);
-		const frags = _frags.map(_frag => (<span key={_frag} className="fragment">{_frag}</span>))
+		const frags = _frags.map((_frag, idx) => (<span key={_frag + idx + matchIdx} className="fragment">{_frag}</span>))
 		return frags;
 	}
 

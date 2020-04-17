@@ -6,8 +6,8 @@ import PaperComponent from './Paper/Paper.js';
 // import tuberclosis_data from "./datas/tuberclosis.json";
 // import pregnan_data from "./datas/pregnan.json";
 // import smoke_data from "./datas/smoke.json";
-// import enriched_data from "./datas/enriched_covid_df.json";
-import enriched_data from "./datas/enriched_covid_df224.json";
+import enriched_data from "./datas/enriched_covid_df.json";
+// import enriched_data from "./datas/enriched_covid_df224.json";
 
 // const rankedRiskFactors = {
 // 	pregnancy: pregnan_data,
@@ -56,7 +56,7 @@ class App extends Component {
 			cleaned: papers, // raw data cleaned - normalized fields (unique/flat lists, string -> array etc)
 			filtered: papers, // cleaned data filtered by filters (risk factor)
 			winStart: 0, // paginated window of filtered papers to show
-			winSize: 10,
+			winSize: 1,
 		}
 
 		this.filterByRiskFactor = this.filterByRiskFactor.bind(this);

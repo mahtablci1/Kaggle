@@ -30,6 +30,20 @@ interface PaperDTO {
 }
 */
 
+const riskFactorColors = {
+	hypertension: '',
+	cancer: '',
+	diabetes: '',
+	'pulmonary disease': '',
+	pregnancy: '',
+	copd: '',
+	'race/ethnicity': '',
+	tuberculosis: '',
+	neonates: '',
+	'liver disease': '',
+	'smoking': '',
+}
+
 /**
  * Receives prop with paper DTO.
  */
@@ -187,7 +201,7 @@ class PaperComponent extends Component {
 		}
 
 
-		return this.makeHighlightedFragments(match_indices.sort(), excerpt);
+		return this.makeHighlightedFragments(match_indices, excerpt);
 	}
 
 	// last index tracked only for global matches (if not global, regexp is basically stateless)
@@ -195,7 +209,8 @@ class PaperComponent extends Component {
 	//
 
 	makeHighlightedFragments(match_indices, snippet) {
-		const ws = /(.*?)(\W)/g
+		match_indices.sort((a,b) => a - b)
+		const ws = /(.*?)\W/g
 		const frags = []
 		const window = {start: null, end: null}
 		for (let i = 0; i < match_indices.length; ++i) {

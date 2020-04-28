@@ -67,7 +67,7 @@ class App extends Component {
 		for (const prop in paper) {
 			const match = prop.match(/has_(.*)\?/)
 			if (match) {
-				const [,factor] = match;
+				const [, factor] = match;
 				_factors.push(factor);
 			}
 		}
@@ -111,7 +111,7 @@ class App extends Component {
 
 	cleanDesigns(papers) {
 		papers.forEach(p => {
-			p.design = this.makeFlatUnique(p.design).map(d =>unstemDesign(d));
+			p.design = this.makeFlatUnique(p.design).map(d => unstemDesign(d));
 		})
 	}
 
@@ -135,14 +135,17 @@ class App extends Component {
 
 				<header>
 					<div className="app-header">
-						<h1>What do we know about COVID-19 risk factors? What have we learned from epidemiological studies?</h1>
+						<h1>COVID-19 Risk Factors - Insights from Epidemiological Studies</h1>
 					</div>
 
 					<div className="searchbar">
-						<h4>Filters:</h4>
 						<div className="filters">
+							<div className="label">
+								<p>Risk Factor:</p>
+							</div>
+
 							<label>
-								Risk Factor:
+
 								<select onChange={this.filterByRiskFactor}>
 									<option value=""></option>
 									{this.getRiskFactorOptions()}
@@ -155,7 +158,7 @@ class App extends Component {
 
 				<div>
 					{papers.map(paper => {
-						return (<PaperComponent key={paper.id} paper={paper}/>);
+						return (<PaperComponent key={paper.id} paper={paper} />);
 					})}
 				</div>
 
@@ -166,7 +169,7 @@ class App extends Component {
 		);
 	}
 
-	filterByRiskFactor({target}) {
+	filterByRiskFactor({ target }) {
 		debugger;
 		const factor = target.value;
 		const filtered = factor
@@ -185,7 +188,7 @@ class App extends Component {
 			const factorLabel = f[0].toUpperCase() + f.slice(1);
 			return (
 				<option
-				  key={f}
+					key={f}
 					value={f}
 					className="title-case">
 					{factorLabel}

@@ -1,19 +1,52 @@
 .app-header {
-  margin-bottom: 30px;
-  background: #444;
-  padding: 5px 10px;
+  padding: 1.5rem 0.5rem 1rem; 
   color: #fff;
 }
 
-
-.searchbar {
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 20px;
+header{
+  background: #14163A;
+  margin:0;
+  padding:0;
 }
+.searchbar {
+ display:flex;
+ align-items: center;
+ justify-content: center; 
+}
+.filters{
+  background-color: #fff;
+  border-radius: 5px;
+ margin: 1rem 0;
+  display:flex;
+}
+.filters p{
+  font-weight: bold;
+  color:#fff
+}
+.label{
+  background-color: #5E67FF;
+  padding:1rem 1rem 1rem 1.5rem;
+  border-radius: 5px 0 0 5px;
 
+}
 .filters label {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+select{
+  padding:0.5rem;
+  margin:0.5rem;
+  border:none;
+}
+div{
+  margin:0;
+  padding:0;
+}
+div>*{
+  margin:0;
+  padding:0;
+}
+h1{
+  text-align: center;
 }

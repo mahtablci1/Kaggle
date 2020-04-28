@@ -4,7 +4,7 @@
 }
 
 header{
-  background: #14163A;
+  background: rgb(23, 34, 66);
   margin:0;
   padding:0;
 }
@@ -26,7 +26,7 @@ header{
   padding:0;
 }
 .label{
-  background-color: #5E67FF;
+  background-color: rgb(94, 123, 216);
   padding:1rem 1rem 1rem 1.5rem;
   border-radius: 5px 0 0 5px;
 

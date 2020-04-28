@@ -98,21 +98,21 @@ class PaperComponent extends Component {
 		return (
 			<div className="paper-container">
 				<div className="paper-metadata">
-					<h4>Title:</h4> <h2>{title}</h2>
+					<h2>{title}</h2>
 					<h4>Journal:</h4> <span>{journal}</span>
 					<h4>Publication Date:</h4> <span>{(new Date(publish_time)).toUTCString()}</span>
 
 					{/* <h4>Authors:</h4> <span>{authors}</span> */}
 					<h4>Doi:</h4> <span>{doi}</span>
 					<h4>Design:</h4> <span className="title-case">{this.showButtons(design)}</span>
-					<h4>Relevant Risk Factors</h4> {this.showButtons(risk_factors)}
+					<h4>Relevant Risk Factors:</h4> {this.showButtons(risk_factors)}
 					<h4><a target="_blank" href={link}>View Reference</a></h4> <span></span>
 
 				</div>
 
 				<div className="paper-data">
 					<div className="paper-summary">
-						<h4>
+						<h3>
 							<label>
 								<span className={excerptName === 'relevant_section' ? 'active' : ''}>Relevant Snippet</span>
 								<input name={`${doc_id}-excerpt`} type="radio" checked={excerptName === 'relevant_section'} onChange={this.setExcerpt.bind(this, 'relevant_section')} />
@@ -120,7 +120,7 @@ class PaperComponent extends Component {
 
 							<label>
 								<span className={excerptName === 'scibert_summary' ? 'active' : ''}>Extracted Summary</span> <input name={`${doc_id}-excerpt`} type="radio" checked={excerptName === 'scibert_summary'} onChange={this.setExcerpt.bind(this, 'scibert_summary')} /></label>
-						</h4>
+						</h3>
 
 						<div className="content">
 							<button onClick={this.onBefore}>View previous text</button>

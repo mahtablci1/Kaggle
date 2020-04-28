@@ -21,7 +21,9 @@ header{
 }
 .filters p{
   font-weight: bold;
-  color:#fff
+  color:#fff;
+  margin:0;
+  padding:0;
 }
 .label{
   background-color: #5E67FF;
@@ -39,14 +41,14 @@ select{
   margin:0.5rem;
   border:none;
 }
-div{
-  margin:0;
-  padding:0;
-}
-div>*{
-  margin:0;
-  padding:0;
-}
+
 h1{
   text-align: center;
+}
+.papers{
+  display:flex;
+  justify-content: center;
+  flex-flow: column;
+  align-items: center;
+
 }

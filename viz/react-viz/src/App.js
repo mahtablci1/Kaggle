@@ -156,7 +156,7 @@ class App extends Component {
 
 				</header>
 
-				<div>
+				<div className="papers">
 					{papers.map(paper => {
 						return (<PaperComponent key={paper.id} paper={paper} />);
 					})}

@@ -46,6 +46,7 @@ color: #fff;
 
 .paper-summary h3 {
   text-align: left;
+  font-weight: 500;
   color: rgb(95, 131, 185)
 }
 .paper-summary h3 label span {

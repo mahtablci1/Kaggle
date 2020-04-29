@@ -135,6 +135,12 @@ class App extends Component {
 
 				<header>
 					<div className="app-header">
+						<nav>
+							<h3>Kaggle</h3>
+							<a target="_blank" href="https://github.com/mahtablci1/Kaggle">View Repo</a>
+
+						</nav>
+
 						<h1>COVID-19 Risk Factors - Insights from Epidemiological Studies</h1>
 					</div>
 
@@ -157,13 +163,15 @@ class App extends Component {
 				</header>
 
 				<div className="papers">
+					<p>Displaying <strong>{this.state.winSize}</strong> of <strong>{this.state.filtered.length}</strong> papers</p>
 					{papers.map(paper => {
 						return (<PaperComponent key={paper.id} paper={paper} />);
 					})}
+					<button className="load-paper" onClick={this.loadMoreHandler}>Load More</button>
+
 				</div>
 
-				<button onClick={this.loadMoreHandler}>Load More</button>
-				<p>{this.state.winSize}</p>
+
 
 			</div>
 		);

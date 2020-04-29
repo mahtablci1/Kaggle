@@ -3,33 +3,6 @@ import './Paper.css';
 
 const handleForce = (data, fileInfo) => console.log(data, fileInfo);
 
-
-/** Paper DTO
-interface PaperDTO {
-	// metadata
-	doc_id: string;
-	journal: string; // journal title
-	title: string; // paper title
-	authors: string; // paper authors
-	doi: string; // digital object identifier
-	publish_time: string;
-	risk_factors: string // stringified array of risk factors
-	design: string // design of the research experiment
-
-	// data
-	match_indices: string; indices that any keywords start at to be higlighted
-	text_body: string; // relevant snippet
-	abstract: string; // paper abstract
-	scibert_summary: string; // paper summary
-
-	transmission_indicator: boolean;
-	smoke_indicator: boolean;
-	// Unnamed: 0
-	// Unnamed: 0.1
-	// H index
-}
-*/
-
 const riskFactorColors = {
 	hypertension: '',
 	cancer: '',
@@ -102,11 +75,10 @@ class PaperComponent extends Component {
 					<h4>Journal:</h4> <span>{journal}</span>
 					<h4>Publication Date:</h4> <span>{(new Date(publish_time)).toUTCString()}</span>
 
-					{/* <h4>Authors:</h4> <span>{authors}</span> */}
 					<h4>Doi:</h4> <span>{doi}</span>
 					<h4>Design:</h4> <span className="title-case">{this.showButtons(design)}</span>
 					<h4>Relevant Risk Factors:</h4> {this.showButtons(risk_factors)}
-					<h4><a target="_blank" href={link}>View Reference</a></h4> <span></span>
+					<a target="_blank" href={link}>View Reference</a> <span></span>
 
 				</div>
 

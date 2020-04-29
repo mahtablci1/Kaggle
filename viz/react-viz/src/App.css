@@ -24,7 +24,8 @@ nav a{
 header{
   background:#053C5E;
   margin:0;
-  padding:0;
+  padding: 0 25px;
+  box-sizing: border-box;
 }
 .searchbar {
  display:flex;
@@ -70,7 +71,7 @@ h1{
   align-items: center;
 
 }
-.papers p{
+.result-count{
  display: block;
  width: 100%;
  box-sizing: border-box;

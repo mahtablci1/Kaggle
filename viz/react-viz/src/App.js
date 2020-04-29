@@ -163,7 +163,7 @@ class App extends Component {
 				</header>
 
 				<div className="papers">
-					<p>Displaying <strong>{this.state.winSize}</strong> of <strong>{this.state.filtered.length}</strong> papers</p>
+					<p className="result-count">Displaying <strong>{this.state.winSize}</strong> of <strong>{this.state.filtered.length}</strong> papers</p>
 					{papers.map(paper => {
 						return (<PaperComponent key={paper.id} paper={paper} />);
 					})}
